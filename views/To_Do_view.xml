@@ -1,0 +1,86 @@
+<odoo>
+    <record id="todo_view_tree" model="ir.ui.view">
+        <field name="name">todo tree</field>
+        <field name="model">todo</field>
+        <field name="arch" type="xml">
+            <tree class="headers_custom">
+                <field name="id"/>
+                <field name="task_name"/>
+                <field name="due_date"/>
+                <field name="assign_to"/>
+                <field name="state"/>
+            </tree>
+        </field>
+    </record>
+    <record id="todo_view_form" model="ir.ui.view">
+        <field name="name">todo form</field>
+        <field name="model">todo</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <header>
+                        <field name="state" widget="statusbar"/>
+                        <button name="action_new"  class="btn-primary" type="object" string="New"
+                                attrs="{'invisible':[('state', '!=', 'completed')]}" />
+                        <button name="action_in_progress" type="object" class="btn-secondary" string="In_Progress"
+                                attrs="{'invisible':[('state', '!=', 'new')]}"/>
+                        <button name="action_completed" type="object" class="btn-success" string="Completed"
+                                attrs="{'invisible':[('state', '!=', 'in_progress' )]}"/>
+                    </header>
+                    <div class="oe_title">
+                        <label for="id"/>
+                        <h1>
+                           <field name="id"/>
+                        </h1>
+                    </div>
+                    <group>
+                        <field name="task_name"/>
+                        <field name="due_date"/>
+                        <field name="description" required="1"/>
+                    </group>
+                    <notebook>
+                        <page string="Notes">
+                            <field name="line_ids">
+                                <tree editable="bottom">
+                                    <field name="inquiry"/>
+                                </tree>
+                            </field>
+                        </page>
+                    </notebook>
+                </sheet>
+                <div class="oe_chatter">
+                    <field name="message_follower_ids"/>
+                    <field name="activity_ids"/>
+                    <field name="message_ids"/>
+                </div>
+            </form>
+        </field>
+    </record>
+    <record id="todo_view_search" model="ir.ui.view">
+        <field name="name">todo search</field>
+        <field name="model">todo</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="task_name"/>
+
+                <filter name="state" string="State New" domain="[('state','=','new')]"/>
+                <filter name="state" string="State In_Progress" domain="[('state','=','in_progress')]"/>
+                <filter name="state" string="State Completed" domain="[('state','=','completed')]"/>
+                <filter name="group_due_date" string="Due Date" context="{'group_by':'due_date'}"/>
+                <filter name="group_state" string="State" context="{ 'group_by':'state'}"/>
+            </search>
+        </field>
+    </record>
+
+    <record id="todo_action" model="ir.actions.act_window">
+        <field name="name">Tasks</field>
+        <field name="res_model">todo</field>
+    </record>
+
+    <menuitem
+        id="todo_ment_item"
+        name="Tasks"
+        parent="todo_menu"
+        action="todo_action"
+    />
+</odoo>

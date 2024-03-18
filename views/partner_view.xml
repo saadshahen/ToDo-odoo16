@@ -1,0 +1,52 @@
+<odoo>
+    <record id="partner_view_tree" model="ir.ui.view">
+        <field name="name">partner tree</field>
+        <field name="model">partner</field>
+        <field name="arch" type="xml">
+            <tree class="header_custom">
+                <field name="id"/>
+                <field name="name"/>
+                <field name="email"/>
+            </tree>
+        </field>
+    </record>
+    <record id="partner_view_form" model="ir.ui.view">
+        <field name="name">partner form</field>
+        <field name="model">partner</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <div class="oe_title">
+                        <label for="name"/>
+                        <h1>
+                           <field name="name"/>
+                        </h1>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="id"/>
+                            <field name="email"/>
+                        </group>
+                        <group>
+                            <field name="tasks_ids" widget="many2many_tags"/>
+                        </group>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+
+
+    <record id="partner_action" model="ir.actions.act_window">
+        <field name="name">Partner</field>
+        <field name="res_model">partner</field>
+    </record>
+
+    <menuitem
+        id="partner_ment_item"
+        name="Partner"
+        parent="configration_menu"
+        action="partner_action"
+    />
+</odoo>
